@@ -1,30 +1,52 @@
 pipeline {
     agent any
 
+    environment {
+        AWS_DEFAULT_REGION = 'ap-south-1'
+    }
+
     stages {
-        stage('Clone Terraform Repo') {
+
+        stage('Checkout') {
             steps {
-                echo 'Hello World'
-                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/sarikamahadik100/Project-Terraform-Jenkins-Ansible.git']]])
-        }}
-        stage('Terraform Provision') {
-            steps {
-                sh """
-                    terraform init
-                    terraform plan
-                    terraform apply --auto-approve
-                """
-                sh 'pwd'
+                git branch: 'main',
+                    url: 'https://github.com/sarikamahadik100/Project-Terraform-Jenkins-Ansible.git'
             }
         }
-        stage('Time to Kill?') {
+
+        stage('Terraform Init') {
             steps {
-                input message: 'Destroy terraform resources?'
+                sh 'terraform init'
             }
         }
-        stage('Search and Destroy') {
+
+        stage('Terraform Validate') {
             steps {
-                sh 'terraform destroy --auto-approve'
+                sh 'terraform validate'
+            }
+        }
+
+        stage('Terraform Plan') {
+            steps {
+                sh 'terraform plan'
+            }
+        }
+
+        stage('Terraform Apply') {
+            steps {
+                sh 'terraform apply -auto-approve'
+            }
+        }
+
+        stage('Destroy Confirmation') {
+            steps {
+                input 'Destroy Terraform resources?'
+            }
+        }
+
+        stage('Terraform Destroy') {
+            steps {
+                sh 'terraform destroy -auto-approve'
             }
         }
     }
