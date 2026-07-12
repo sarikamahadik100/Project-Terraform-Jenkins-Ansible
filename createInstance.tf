@@ -3,7 +3,10 @@ resource "aws_instance" "MyFirstInstnace" {
   ami           = "ami-0b6d9d3d33ba97d99"
   instance_type = "t3.micro"
 
+  # Install Ansible only on the first instance
+  user_data = count.index == 0 ? file("${path.module}/ansible-install.sh") : null
+
   tags = {
-    Name = "demoinstnce-${count.index}"
+    Name = count.index == 0 ? "Control-Server" : "Remote-Server-${count.index}"
   }
 }
