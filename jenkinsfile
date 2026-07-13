@@ -64,13 +64,16 @@ stage('Generate Inventory') {
             }
         }
 
-        stage('Build Application') {
-            steps {
-                dir('AddressBook') {
-                    sh 'mvn clean package'
-                }
-            }
-        }
+stage('Build Application') {
+    steps {
+        sh '''
+        echo "Searching for pom.xml..."
+        find . -name pom.xml
+
+        mvn clean package -f $(find . -name pom.xml | head -1)
+        '''
+    }
+}
 
         stage('Copy WAR to Ansible') {
             steps {
