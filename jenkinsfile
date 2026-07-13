@@ -40,6 +40,23 @@ pipeline {
             }
         }
 
+stage('Generate Inventory') {
+    steps {
+        sh '''
+        mkdir -p ansible
+
+        echo "[webservers]" > ansible/inventory
+
+        terraform output -json remote_server_ips | \
+        jq -r '.[]' | while read ip
+        do
+          echo "$ip ansible_user=ubuntu ansible_ssh_private_key_file=/home/ubuntu/.ssh/id_ed25519" >> ansible/inventory
+        done
+
+        cat ansible/inventory
+        '''
+    }
+}
        stage('Wait for EC2') {
             steps {
                 echo 'Waiting for EC2 instances to boot...'
