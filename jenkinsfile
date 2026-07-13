@@ -94,6 +94,10 @@ stage('Run Ansible') {
 
         echo "Running Ansible on Control Server: $CONTROL_SERVER_IP"
 
+        mkdir -p ~/.ssh
+
+        ssh-keyscan -H $CONTROL_SERVER_IP >> ~/.ssh/known_hosts
+
         scp -r ansible ubuntu@$CONTROL_SERVER_IP:/home/ubuntu/
 
         ssh ubuntu@$CONTROL_SERVER_IP "
