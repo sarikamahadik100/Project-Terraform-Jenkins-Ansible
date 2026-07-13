@@ -103,7 +103,6 @@ stage('Run Ansible') {
 ssh ubuntu@${CONTROL_SERVER_IP} '
 cd /home/ubuntu/ansible &&
 ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i inventory playbook.yml
-'
         "
         '''
     }
