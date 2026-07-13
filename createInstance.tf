@@ -1,7 +1,3 @@
-locals {
-  public_key = file("${path.module}/id_ed25519.pub")
-}
-
 resource "aws_instance" "MyFirstInstnace" {
   count         = 3
   ami           = "ami-0b6d9d3d33ba97d99"
