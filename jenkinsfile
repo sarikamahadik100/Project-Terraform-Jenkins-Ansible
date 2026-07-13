@@ -80,8 +80,8 @@ stage('Copy WAR to Ansible') {
         sh '''
         mkdir -p ansible/files
 
-        cp $(find . -name "*.war" | head -1) ansible/files/
-        
+        cp $(find . -path "./ansible" -prune -o -name "*.war" -print | head -1) ansible/files/
+
         ls -l ansible/files/
         '''
     }
