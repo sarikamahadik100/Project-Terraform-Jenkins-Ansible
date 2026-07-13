@@ -1,4 +1,4 @@
-- name: Configure Web Servers
+- name: Deploy Royal Hotel Website
   hosts: webservers
   become: yes
 
@@ -10,16 +10,18 @@
         state: present
         update_cache: yes
 
+
     - name: Start Nginx
       service:
         name: nginx
         state: started
         enabled: yes
 
-    - name: Copy WAR file
+
+    - name: Copy Royal Hotel webpage
       copy:
-        src: files/addressbook-2.1.war
-        dest: /var/www/html/addressbook.war
-        owner: root
-        group: root
+        src: files/index.html
+        dest: /var/www/html/index.html
+        owner: www-data
+        group: www-data
         mode: '0644'
