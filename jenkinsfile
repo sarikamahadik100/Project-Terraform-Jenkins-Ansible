@@ -98,7 +98,7 @@ stage('Run Ansible') {
 
         ssh-keyscan -H $CONTROL_SERVER_IP >> ~/.ssh/known_hosts
 
-        scp -r ansible ubuntu@$CONTROL_SERVER_IP:/home/ubuntu/
+      scp -o StrictHostKeyChecking=no -r ansible ubuntu@${CONTROL_SERVER_IP}:/home/ubuntu/
 
         ssh ubuntu@$CONTROL_SERVER_IP "
         cd /home/ubuntu/ansible &&
