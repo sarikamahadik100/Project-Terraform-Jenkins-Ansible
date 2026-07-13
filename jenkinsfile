@@ -109,16 +109,5 @@ stage('Run Ansible') {
 }
 
 
-        stage('Destroy Confirmation') {
-            steps {
-                input 'Destroy Terraform resources?'
-            }
-        }
-
-        stage('Terraform Destroy') {
-            steps {
-                sh 'terraform destroy -auto-approve'
-            }
-        }
     }
 }
