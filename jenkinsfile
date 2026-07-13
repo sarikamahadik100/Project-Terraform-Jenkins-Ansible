@@ -87,15 +87,22 @@ stage('Copy WAR to Ansible') {
     }
 }
 
-        stage('Run Ansible') {
-            steps {
-                sh '''
-                ansible-playbook \
-                -i ansible/inventory \
-                ansible/playbook.yml
-                '''
-            }
-        }
+stage('Run Ansible') {
+    steps {
+        sh '''
+        CONTROL_SERVER_IP=$(terraform output -raw control_server_ip)
+
+        echo "Running Ansible on Control Server: $CONTROL_SERVER_IP"
+
+        scp -r ansible ubuntu@$CONTROL_SERVER_IP:/home/ubuntu/
+
+        ssh ubuntu@$CONTROL_SERVER_IP "
+        cd /home/ubuntu/ansible &&
+        ansible-playbook -i inventory playbook.yml
+        "
+        '''
+    }
+}
 
 
         stage('Destroy Confirmation') {
