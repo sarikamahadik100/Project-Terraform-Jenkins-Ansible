@@ -75,13 +75,17 @@ stage('Build Application') {
     }
 }
 
-        stage('Copy WAR to Ansible') {
-            steps {
-                sh '''
-                cp AddressBook/target/*.war ansible/files/
-                '''
-            }
-        }
+stage('Copy WAR to Ansible') {
+    steps {
+        sh '''
+        mkdir -p ansible/files
+
+        cp $(find . -name "*.war" | head -1) ansible/files/
+        
+        ls -l ansible/files/
+        '''
+    }
+}
 
         stage('Run Ansible') {
             steps {
