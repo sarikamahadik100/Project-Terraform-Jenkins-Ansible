@@ -100,9 +100,10 @@ stage('Run Ansible') {
 
       scp -o StrictHostKeyChecking=no -r ansible ubuntu@${CONTROL_SERVER_IP}:/home/ubuntu/
 
-        ssh ubuntu@$CONTROL_SERVER_IP "
-        cd /home/ubuntu/ansible &&
-        ansible-playbook -i inventory playbook.yml
+ssh ubuntu@${CONTROL_SERVER_IP} '
+cd /home/ubuntu/ansible &&
+ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i inventory playbook.yml
+'
         "
         '''
     }
