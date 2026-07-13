@@ -5,7 +5,7 @@ resource "aws_instance" "MyFirstInstnace" {
 
   key_name = "ansible-key"
 
-  user_data = count.index == 0 ? file("${path.module}/ansible-install.sh") : file("${path.module}/remote-userdata.sh")
+  user_data = count.index == 0 ? file("${path.module}/ansible-install.sh") : ""
 
   tags = {
     Name = count.index == 0 ? "Control-Server" : "Remote-Server-${count.index}"
