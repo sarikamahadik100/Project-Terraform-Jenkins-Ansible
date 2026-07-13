@@ -2,7 +2,7 @@
 
 mkdir -p /home/ubuntu/.ssh
 
-cat <<EOF >/home/ubuntu/.ssh/authorized_keys
+cat <<EOF > /home/ubuntu/.ssh/authorized_keys
 ${PUBLIC_KEY}
 EOF
 
