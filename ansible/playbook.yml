@@ -17,7 +17,7 @@
         state: started
         enabled: yes
 
-    - name: Copy WAR file
-      copy:
-        src: files/AddressBook.war
-        dest: /opt/AddressBook.war
+- name: Copy WAR file
+  copy:
+    src: files/addressbook-2.1.war
+    dest: /var/lib/tomcat9/webapps/AddressBook.war
